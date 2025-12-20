@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life in Weeks Calendar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Life in Weeks</h1>
+            <p class="subtitle">Every week is a box. Every year is a row.</p>
+        </header>
+
+        <div class="info-panel">
+            <div class="info-card">
+                <h3 id="person-name">Your Life</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-value" id="age-years">0</span>
+                        <span class="stat-label">Years Old</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="weeks-lived">0</span>
+                        <span class="stat-label">Weeks Lived</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="weeks-remaining">0</span>
+                        <span class="stat-label">Weeks Remaining</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="percent-complete">0</span>
+                        <span class="stat-label">% Complete</span>
+                    </div>
+                </div>
+            </div>
+            <button id="load-config-btn" class="btn">Load Configuration</button>
+            <input type="file" id="yaml-input" accept=".yaml,.yml" style="display: none;">
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-box lived"></span>
+                <span>Lived</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-box current"></span>
+                <span>Current Week</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-box future"></span>
+                <span>Future</span>
+            </div>
+        </div>
+
+        <div class="calendar-container">
+            <div id="calendar" class="calendar"></div>
+        </div>
+
+        <div class="milestone-container" id="milestones"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
