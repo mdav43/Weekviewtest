@@ -27,20 +27,34 @@ Create or edit the `config.yaml` file to personalize your calendar:
 
 ```yaml
 # Personal Information
-name: "Your Name"
-birthdate: "1990-01-01"  # Format: YYYY-MM-DD
+name: "Your Life"
+birthdate: "1981-06-04"  # Format: YYYY-MM-DD
 lifeExpectancy: 90  # Expected years of life
 
 # Life Milestones
 milestones:
+  - age: 0
+    title: "Birthday"
   - age: 18
     title: "Graduated High School"
+  - age: 22
+    title: "Graduated College"
   - age: 25
     title: "Quarter Century"
-  - age: 30
-    title: "Career Milestone"
+  - age: 27
+    title: "Move to Hong Kong (30 Oct 2008)"
+  - age: 29
+    title: "Move to Sydney (1 Apr 2011)"
+  - age: 32
+    title: "Move to New York (13 Aug 2013)"
+  - age: 38
+    title: "Move to Singapore (2 Sep 2019)"
+  - age: 50
+    title: "Half Century"
   - age: 65
     title: "Retirement"
+  - age: 75
+    title: "Seventy-Five"
 ```
 
 ### Configuration Fields
@@ -101,7 +115,7 @@ Edit `script.js` to change the default configuration:
 ```javascript
 let config = {
     name: "Your Life",
-    birthdate: "1990-01-01",
+    birthdate: "1981-06-04",
     lifeExpectancy: 90,
     milestones: [...]
 };
