@@ -1,18 +1,67 @@
+const defaultBirthdate = "1981-06-04";
+const BIRTHDAY_TITLE_PATTERN = /^\s*birthday\b/i;
+
+function formatBirthdate(birthdate) {
+    const parsedBirthdate = new Date(birthdate);
+    if (!isNaN(parsedBirthdate.getTime())) {
+        return parsedBirthdate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    return birthdate;
+}
+
+function hasYamlParser() {
+    return typeof jsyaml !== 'undefined';
+}
+
+function isZeroAge(value) {
+    return value === 0 || value === '0';
+}
+
 // Default configuration
-let config = {
+const defaultConfig = {
     name: "Your Life",
-    birthdate: "1990-01-01",
+    birthdate: defaultBirthdate,
     lifeExpectancy: 90,
     milestones: [
-        { age: 18, title: "Adulthood" },
+        { age: 18, title: "Graduated High School" },
+        { age: 22, title: "Graduated College" },
         { age: 25, title: "Quarter Century" },
-        { age: 30, title: "Thirties" },
-        { age: 40, title: "Forties" },
+        { age: 27, title: "Move to Hong Kong (30 Oct 2008)" },
+        { age: 29, title: "Move to Sydney (1 Apr 2011)" },
+        { age: 32, title: "Move to New York (13 Aug 2013)" },
+        { age: 38, title: "Move to Singapore (2 Sep 2019)" },
         { age: 50, title: "Half Century" },
         { age: 65, title: "Retirement" },
         { age: 75, title: "Seventy-Five" }
     ]
 };
+
+function mergeConfig(baseConfig, overrides) {
+    const merged = { ...baseConfig, ...(overrides || {}) };
+    merged.milestones = ensureBirthdayMilestone(
+        overrides?.birthdate || baseConfig.birthdate,
+        overrides?.milestones || baseConfig.milestones
+    );
+    return merged;
+}
+
+let config = { ...defaultConfig };
+
+function ensureBirthdayMilestone(birthdate, milestones) {
+    const existingMilestones = milestones || [];
+    const hasBirthday = existingMilestones.some(
+        milestone => isZeroAge(milestone.age) && BIRTHDAY_TITLE_PATTERN.test(milestone.title || '')
+    );
+    if (hasBirthday) return existingMilestones;
+    
+    const safeBirthdate = birthdate || defaultConfig.birthdate;
+    const formattedBirthdate = formatBirthdate(safeBirthdate);
+
+    return [
+        { age: 0, title: `Birthday (${formattedBirthdate})` },
+        ...existingMilestones
+    ];
+}
 
 // Calculate age in years
 function calculateAge(birthdate) {
@@ -124,12 +173,32 @@ function displayMilestones(milestones, birthdate) {
     });
 }
 
-// Initialize with default config
+// Initialize with current config
 function initialize() {
     document.getElementById('person-name').textContent = config.name;
     updateStats(config.birthdate, config.lifeExpectancy);
     generateCalendar(config.birthdate, config.lifeExpectancy);
     displayMilestones(config.milestones, config.birthdate);
+}
+
+// Load default configuration file first (with fallback to inline defaults)
+async function loadDefaultConfig() {
+    try {
+        if (!hasYamlParser()) {
+            throw new Error('YAML parser not available.');
+        }
+        const response = await fetch('config.yaml');
+        if (!response.ok) throw new Error(`Default config not found (status ${response.status})`);
+        const yamlContent = await response.text();
+        const loadedConfig = jsyaml.load(yamlContent, { schema: jsyaml.CORE_SCHEMA }) || {};
+
+        config = mergeConfig(defaultConfig, loadedConfig);
+    } catch (error) {
+        console.warn('Using inline defaults:', error.message);
+        config = mergeConfig(defaultConfig);
+    } finally {
+        initialize();
+    }
 }
 
 // Load configuration from YAML file
@@ -140,20 +209,19 @@ document.getElementById('load-config-btn').addEventListener('click', function() 
 document.getElementById('yaml-input').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (!file) return;
+    if (!hasYamlParser()) {
+        alert('YAML parser not available. Please ensure js-yaml is loaded.');
+        return;
+    }
     
     const reader = new FileReader();
     reader.onload = function(event) {
         try {
             const yamlContent = event.target.result;
-            const loadedConfig = jsyaml.load(yamlContent);
+            const loadedConfig = jsyaml.load(yamlContent, { schema: jsyaml.CORE_SCHEMA });
             
             // Update config with loaded values
-            config = {
-                name: loadedConfig.name || config.name,
-                birthdate: loadedConfig.birthdate || config.birthdate,
-                lifeExpectancy: loadedConfig.lifeExpectancy || config.lifeExpectancy,
-                milestones: loadedConfig.milestones || config.milestones
-            };
+            config = mergeConfig(config, loadedConfig);
             
             // Reinitialize with new config
             initialize();
@@ -167,4 +235,4 @@ document.getElementById('yaml-input').addEventListener('change', function(e) {
 });
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', initialize);
+document.addEventListener('DOMContentLoaded', loadDefaultConfig);

@@ -1,34 +1,32 @@
 # Life in Weeks Calendar - Configuration Example
 
 # Personal Information
-name: "John Doe"
-birthdate: "1990-01-01"  # Format: YYYY-MM-DD
+name: "Your Life"
+birthdate: "1981-06-04"  # Format: YYYY-MM-DD
 lifeExpectancy: 90  # Expected years of life
 
 # Life Milestones
 # Add your important life milestones here
 milestones:
+  - age: 0
+    title: "Birthday"
   - age: 18
     title: "Graduated High School"
   - age: 22
     title: "Graduated College"
   - age: 25
     title: "Quarter Century"
-  - age: 30
-    title: "Career Established"
-  - age: 35
-    title: "Mid Thirties"
-  - age: 40
-    title: "Entered Forties"
+  - age: 27
+    title: "Move to Hong Kong (30 Oct 2008)"
+  - age: 29
+    title: "Move to Sydney (1 Apr 2011)"
+  - age: 32
+    title: "Move to New York (13 Aug 2013)"
+  - age: 38
+    title: "Move to Singapore (2 Sep 2019)"
   - age: 50
     title: "Half Century"
-  - age: 60
-    title: "Planning Retirement"
   - age: 65
     title: "Retirement"
-  - age: 70
-    title: "Seventies"
   - age: 75
     title: "Seventy-Five"
-  - age: 80
-    title: "Eighty Years"
