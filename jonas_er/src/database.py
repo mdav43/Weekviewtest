@@ -27,6 +27,12 @@ class Database:
                 raw_data TEXT,
                 FOREIGN KEY(source_id) REFERENCES sources(id)
             );
+            CREATE TABLE IF NOT EXISTS observation_attributes (
+                obs_hash TEXT,
+                attr_type TEXT,
+                attr_value TEXT,
+                FOREIGN KEY(obs_hash) REFERENCES observations(hash)
+            );
             CREATE TABLE IF NOT EXISTS entity_index (
                 attr_type TEXT,
                 attr_value TEXT,

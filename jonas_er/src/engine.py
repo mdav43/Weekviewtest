@@ -11,7 +11,17 @@ class ResolutionEngine:
     def __init__(self, db):
         self.db = db
         # Jeff Jonas Principles: Higher weight = more unique
-        self.weights = {"PERSON": 0.4, "ORG": 0.5, "GPE": 0.3, "EMAIL": 0.9, "PHONE": 0.8}
+        # High-entropy enriched attributes get maximum weight
+        self.weights = {
+            "PERSON": 0.4,
+            "ORG": 0.5,
+            "GPE": 0.3,
+            "EMAIL": 0.9,
+            "PHONE": 0.8,
+            "MAPS_PLACE_ID": 1.0,  # Perfect identifier from Google Maps
+            "FORMATTED_ADDRESS": 0.7,
+            "LAT_LNG": 0.6
+        }
 
     def resolve(self, features):
         candidate_scores = {}
