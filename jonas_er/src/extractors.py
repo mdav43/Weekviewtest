@@ -14,14 +14,17 @@ class FeatureExtractor:
         # Load spaCy (ensure 'en_core_web_trf' is installed for best accuracy)
         try:
             self.nlp = spacy.load("en_core_web_trf")
-        except:
+        except (OSError, ImportError):
             self.nlp = spacy.load("en_core_web_sm")
 
     def extract_features(self, text):
         doc = self.nlp(text)
         features = {}
         for ent in doc.ents:
-            features[ent.label_] = ent.text
+            # If multiple entities of same type, keep the first occurrence
+            # (alternatively could concatenate or use a list)
+            if ent.label_ not in features:
+                features[ent.label_] = ent.text
         return features
 
     def compute_hash(self, data):
