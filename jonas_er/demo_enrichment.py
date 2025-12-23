@@ -9,9 +9,9 @@ import sys
 import os
 import logging
 
-# Configure logging to show debug messages
+# Configure logging: INFO level for general output, DEBUG for enricher details
 logging.basicConfig(level=logging.INFO, format='%(message)s')
-# Enable debug logging for enrichers module
+# Enable debug logging for enrichers module to see API calls
 logging.getLogger('enrichers').setLevel(logging.DEBUG)
 
 # Add src to path

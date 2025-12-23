@@ -10,6 +10,7 @@ import os
 import logging
 
 # Configure logger for enrichment module
+# Can be controlled externally via: logging.getLogger('enrichers').setLevel(logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -84,7 +85,7 @@ class GoogleMapsEnricher(BaseEnricher):
         #         "LAT_LNG": f"{place['geometry']['location']['lat']},{place['geometry']['location']['lng']}"
         #     }
         
-        # Mock result for demonstration:
+        # Mock result for demonstration (uses placeholder coordinates):
         return {
             "MAPS_PLACE_ID": f"ChIJ-{name.replace(' ', '_')}-ID",
             "FORMATTED_ADDRESS": f"{name}, {location}, USA",
