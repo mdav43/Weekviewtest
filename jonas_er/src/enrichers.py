@@ -7,6 +7,10 @@ Implements feature-triggered execution to avoid unnecessary API calls.
 """
 
 import os
+import logging
+
+# Configure logger for enrichment module
+logger = logging.getLogger(__name__)
 
 
 class BaseEnricher:
@@ -68,7 +72,7 @@ class GoogleMapsEnricher(BaseEnricher):
         if not (name and location):
             return {}
         
-        print(f"DEBUG: Searching Google Maps for '{name}' in '{location}'...")
+        logger.debug(f"Searching Google Maps for '{name}' in '{location}'...")
         
         # Placeholder for real API call:
         # result = self.client.places(f"{name} in {location}")

@@ -6,7 +6,12 @@ enrichers should run based on available features. This prevents unnecessary
 API calls and provides intelligent routing of data through enrichment steps.
 """
 
-from src.enrichers import BaseEnricher
+try:
+    # Try relative import first (when used as package)
+    from .enrichers import BaseEnricher
+except ImportError:
+    # Fall back to absolute import (when used as standalone)
+    from enrichers import BaseEnricher
 
 
 class EnrichmentRegistry:

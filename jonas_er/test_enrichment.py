@@ -7,6 +7,12 @@ This script demonstrates the enrichment pipeline functionality.
 
 import sys
 import os
+import logging
+
+# Configure logging to show debug messages
+logging.basicConfig(level=logging.INFO, format='%(message)s')
+# Enable debug logging for enrichers module
+logging.getLogger('enrichers').setLevel(logging.DEBUG)
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
